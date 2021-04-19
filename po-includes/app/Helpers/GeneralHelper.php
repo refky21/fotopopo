@@ -104,6 +104,22 @@ if (!function_exists('getMenus')) {
 		return $menus->tree();
 	}
 }
+if (!function_exists('getAdminMenu')) {
+    function getAdminMenu()
+    {
+		$menus = new Menu;
+		return $menus->treeadmin();
+	}
+}
+
+if (!function_exists('adminBase')) {
+    function adminBase($files)
+    {
+		
+			return 'backend.'.$files;
+		
+	}
+}
 
 if (!function_exists('getPages')) {
     function getPages($id)

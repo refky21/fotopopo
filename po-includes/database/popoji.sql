@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 13, 2019 at 11:19 PM
--- Server version: 5.7.14
--- PHP Version: 7.2.12
+-- Waktu pembuatan: 18 Apr 2021 pada 06.11
+-- Versi server: 5.7.31
+-- Versi PHP: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `popoji`
+-- Database: `mopo`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `activity_log`
+-- Struktur dari tabel `activity_log`
 --
 
 DROP TABLE IF EXISTS `activity_log`;
@@ -46,7 +45,67 @@ CREATE TABLE IF NOT EXISTS `activity_log` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `albums`
+-- Struktur dari tabel `admin_menus`
+--
+
+DROP TABLE IF EXISTS `admin_menus`;
+CREATE TABLE IF NOT EXISTS `admin_menus` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `admin_menus`
+--
+
+INSERT INTO `admin_menus` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Menu Website', '2021-04-08 05:07:33', '2021-04-08 05:07:33'),
+(2, 'Menu Admin', '2021-04-08 05:15:59', '2021-04-08 05:15:59');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `admin_menu_items`
+--
+
+DROP TABLE IF EXISTS `admin_menu_items`;
+CREATE TABLE IF NOT EXISTS `admin_menu_items` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `sort` int(11) NOT NULL DEFAULT '0',
+  `class` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `menu` bigint(20) UNSIGNED DEFAULT NULL,
+  `depth` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `admin_menu_items_menu_foreign` (`menu`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `admin_menu_items`
+--
+
+INSERT INTO `admin_menu_items` (`id`, `label`, `link`, `parent`, `sort`, `class`, `menu`, `depth`, `created_at`, `updated_at`) VALUES
+(4, 'Dashboard', '##', 0, 0, NULL, 2, 0, '2021-04-08 05:07:46', '2021-04-08 05:15:36'),
+(5, 'Dashboard', '#', 0, 1, NULL, 2, 0, '2021-04-08 05:07:58', '2021-04-08 05:15:36'),
+(6, 'Content', '##', 0, 2, NULL, 2, 0, '2021-04-08 05:08:18', '2021-04-08 05:08:18'),
+(7, 'Post', '/dashboard/posts/table', 0, 3, NULL, 2, 0, '2021-04-08 05:08:37', '2021-04-08 05:08:37'),
+(8, 'Categories', 'dashboard/categories/table', 7, 4, NULL, 2, 1, '2021-04-08 05:09:03', '2021-04-08 05:09:12'),
+(9, 'Tags', '/dashboard/tags/table', 7, 5, NULL, 2, 1, '2021-04-08 05:09:36', '2021-04-08 05:10:04'),
+(10, 'Comments', '/dashboard/comments/table', 0, 6, NULL, 2, 0, '2021-04-08 05:10:03', '2021-04-08 05:10:03'),
+(11, 'Pages', '/dashboard/pages/table', 0, 7, NULL, 2, 0, '2021-04-08 05:10:16', '2021-04-08 05:10:16'),
+(12, 'Home', '/', 0, 0, NULL, 3, 0, '2021-04-08 05:16:17', '2021-04-08 05:17:59');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `albums`
 --
 
 DROP TABLE IF EXISTS `albums`;
@@ -63,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `albums`
+-- Dumping data untuk tabel `albums`
 --
 
 INSERT INTO `albums` (`id`, `title`, `seotitle`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -73,7 +132,7 @@ INSERT INTO `albums` (`id`, `title`, `seotitle`, `active`, `created_by`, `update
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Struktur dari tabel `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
@@ -92,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `categories`
+-- Dumping data untuk tabel `categories`
 --
 
 INSERT INTO `categories` (`id`, `parent`, `title`, `seotitle`, `picture`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -105,7 +164,7 @@ INSERT INTO `categories` (`id`, `parent`, `title`, `seotitle`, `picture`, `activ
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Struktur dari tabel `comments`
 --
 
 DROP TABLE IF EXISTS `comments`;
@@ -126,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `comments`
+-- Dumping data untuk tabel `comments`
 --
 
 INSERT INTO `comments` (`id`, `parent`, `post_id`, `name`, `email`, `content`, `active`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -137,7 +196,7 @@ INSERT INTO `comments` (`id`, `parent`, `post_id`, `name`, `email`, `content`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `components`
+-- Struktur dari tabel `components`
 --
 
 DROP TABLE IF EXISTS `components`;
@@ -156,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `components` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `components`
+-- Dumping data untuk tabel `components`
 --
 
 INSERT INTO `components` (`id`, `title`, `author`, `folder`, `type`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -166,7 +225,7 @@ INSERT INTO `components` (`id`, `title`, `author`, `folder`, `type`, `active`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts`
+-- Struktur dari tabel `contacts`
 --
 
 DROP TABLE IF EXISTS `contacts`;
@@ -185,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `contacts`
+-- Dumping data untuk tabel `contacts`
 --
 
 INSERT INTO `contacts` (`id`, `name`, `email`, `subject`, `message`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -194,7 +253,7 @@ INSERT INTO `contacts` (`id`, `name`, `email`, `subject`, `message`, `status`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
+-- Struktur dari tabel `failed_jobs`
 --
 
 DROP TABLE IF EXISTS `failed_jobs`;
@@ -211,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gallerys`
+-- Struktur dari tabel `gallerys`
 --
 
 DROP TABLE IF EXISTS `gallerys`;
@@ -229,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `gallerys` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `gallerys`
+-- Dumping data untuk tabel `gallerys`
 --
 
 INSERT INTO `gallerys` (`id`, `album_id`, `title`, `content`, `picture`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -245,7 +304,7 @@ INSERT INTO `gallerys` (`id`, `album_id`, `title`, `content`, `picture`, `create
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menus`
+-- Struktur dari tabel `menus`
 --
 
 DROP TABLE IF EXISTS `menus`;
@@ -258,33 +317,34 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `class` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `target` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT '1',
+  `depth` int(11) NOT NULL DEFAULT '0',
   `created_by` int(11) NOT NULL DEFAULT '1',
   `updated_by` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `menus`
+-- Dumping data untuk tabel `menus`
 --
 
-INSERT INTO `menus` (`id`, `parent`, `group`, `title`, `url`, `class`, `target`, `position`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 0, 1, 'Home', '/', NULL, 'none', 1, 1, 1, '2019-10-14 15:23:50', '2019-10-14 16:15:31'),
-(2, 0, 1, 'About Us', 'pages/about-us', NULL, 'none', 2, 1, 1, '2019-10-14 16:14:58', '2019-10-14 16:31:12'),
-(3, 2, 1, 'Services', 'pages/services', NULL, 'none', 3, 1, 1, '2019-10-14 16:20:41', '2019-10-14 16:31:13'),
-(4, 0, 1, 'Sport', 'category/sport', NULL, 'none', 4, 1, 1, '2019-10-14 16:29:31', '2019-10-14 16:31:13'),
-(5, 0, 1, 'Otomotif', 'category/otomotif', NULL, 'none', 5, 1, 1, '2019-10-14 16:30:16', '2019-10-14 16:31:13'),
-(6, 0, 1, 'Travel', 'category/travel', NULL, 'none', 6, 1, 1, '2019-10-14 16:30:36', '2019-10-14 16:31:13'),
-(7, 0, 1, 'Food', 'category/food', NULL, 'none', 7, 1, 1, '2019-10-14 16:30:51', '2019-10-14 16:31:13'),
-(8, 0, 1, 'Health', 'category/health', NULL, 'none', 8, 1, 1, '2019-10-14 16:31:05', '2019-10-14 16:31:13'),
-(9, 0, 1, 'Gallery', 'album/all', NULL, 'none', 9, 1, 1, '2019-10-14 16:31:34', '2019-10-14 16:31:40'),
-(10, 0, 1, 'Contact Us', 'contact', NULL, 'none', 10, 1, 1, '2019-10-14 16:34:14', '2019-10-14 16:34:19');
+INSERT INTO `menus` (`id`, `parent`, `group`, `title`, `url`, `class`, `target`, `position`, `depth`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 0, 1, 'Home', '/', NULL, 'none', 0, 0, 1, 1, '2019-10-14 15:23:50', '2021-04-17 23:03:18'),
+(2, 0, 1, 'About Us', 'pages/about-us', NULL, 'none', 1, 0, 1, 1, '2019-10-14 16:14:58', '2021-04-17 23:03:18'),
+(3, 2, 1, 'Services', 'pages/services', NULL, 'none', 2, 1, 1, 1, '2019-10-14 16:20:41', '2021-04-17 23:03:18'),
+(4, 0, 1, 'Sport', 'category/sport', NULL, 'none', 3, 0, 1, 1, '2019-10-14 16:29:31', '2021-04-17 23:06:39'),
+(5, 0, 1, 'Otomotif', 'category/otomotif', NULL, 'none', 4, 0, 1, 1, '2019-10-14 16:30:16', '2021-04-17 23:06:50'),
+(6, 0, 1, 'Travel', 'category/travel', NULL, 'none', 5, 0, 1, 1, '2019-10-14 16:30:36', '2021-04-17 23:03:18'),
+(7, 0, 1, 'Food', 'category/food', NULL, 'none', 6, 0, 1, 1, '2019-10-14 16:30:51', '2021-04-17 23:03:18'),
+(8, 0, 1, 'Health', 'category/health', NULL, 'none', 7, 0, 1, 1, '2019-10-14 16:31:05', '2021-04-17 23:03:18'),
+(9, 0, 1, 'Gallery', 'album/all', NULL, 'none', 8, 0, 1, 1, '2019-10-14 16:31:34', '2021-04-17 23:03:18'),
+(10, 0, 1, 'Contact Us', 'contact', NULL, 'none', 9, 0, 1, 1, '2019-10-14 16:34:14', '2021-04-17 23:03:18');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Struktur dari tabel `migrations`
 --
 
 DROP TABLE IF EXISTS `migrations`;
@@ -293,10 +353,10 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Dumping data untuk tabel `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -318,12 +378,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (16, '2019_10_14_042900_create_posts_table', 11),
 (17, '2019_10_14_043042_create_post_gallerys_table', 11),
 (18, '2019_10_14_222137_create_menus_table', 12),
-(19, '2019_10_15_055433_create_subscribes_table', 13);
+(19, '2019_10_15_055433_create_subscribes_table', 13),
+(20, '2017_08_11_073824_create_menus_wp_table', 14),
+(21, '2017_08_11_074006_create_menu_items_wp_table', 14);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `model_has_permissions`
+-- Struktur dari tabel `model_has_permissions`
 --
 
 DROP TABLE IF EXISTS `model_has_permissions`;
@@ -337,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `model_has_roles`
+-- Struktur dari tabel `model_has_roles`
 --
 
 DROP TABLE IF EXISTS `model_has_roles`;
@@ -349,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `model_has_roles`
+-- Dumping data untuk tabel `model_has_roles`
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
@@ -361,7 +423,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pages`
+-- Struktur dari tabel `pages`
 --
 
 DROP TABLE IF EXISTS `pages`;
@@ -380,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `pages`
+-- Dumping data untuk tabel `pages`
 --
 
 INSERT INTO `pages` (`id`, `title`, `seotitle`, `content`, `picture`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -390,7 +452,7 @@ INSERT INTO `pages` (`id`, `title`, `seotitle`, `content`, `picture`, `active`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Struktur dari tabel `password_resets`
 --
 
 DROP TABLE IF EXISTS `password_resets`;
@@ -398,13 +460,13 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  KEY (`email`)
+  KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permissions`
+-- Struktur dari tabel `permissions`
 --
 
 DROP TABLE IF EXISTS `permissions`;
@@ -418,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `permissions`
+-- Dumping data untuk tabel `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -490,7 +552,7 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `posts`
+-- Struktur dari tabel `posts`
 --
 
 DROP TABLE IF EXISTS `posts`;
@@ -499,8 +561,8 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `category_id` int(11) NOT NULL DEFAULT '1',
   `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `seotitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci,
-  `meta_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci,
+  `meta_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `picture_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -517,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `posts`
+-- Dumping data untuk tabel `posts`
 --
 
 INSERT INTO `posts` (`id`, `category_id`, `title`, `seotitle`, `content`, `meta_description`, `picture`, `picture_description`, `tag`, `type`, `active`, `headline`, `comment`, `hits`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -535,7 +597,7 @@ INSERT INTO `posts` (`id`, `category_id`, `title`, `seotitle`, `content`, `meta_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post_gallerys`
+-- Struktur dari tabel `post_gallerys`
 --
 
 DROP TABLE IF EXISTS `post_gallerys`;
@@ -554,7 +616,7 @@ CREATE TABLE IF NOT EXISTS `post_gallerys` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Struktur dari tabel `roles`
 --
 
 DROP TABLE IF EXISTS `roles`;
@@ -568,7 +630,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `roles`
+-- Dumping data untuk tabel `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
@@ -580,17 +642,19 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role_has_permissions`
+-- Struktur dari tabel `role_has_permissions`
 --
 
 DROP TABLE IF EXISTS `role_has_permissions`;
 CREATE TABLE IF NOT EXISTS `role_has_permissions` (
   `permission_id` int(10) UNSIGNED NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL
+  `role_id` int(10) UNSIGNED NOT NULL,
+  KEY `role_has_permissions_permission_id_foreign` (`permission_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `role_has_permissions`
+-- Dumping data untuk tabel `role_has_permissions`
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
@@ -750,7 +814,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `settings`
+-- Struktur dari tabel `settings`
 --
 
 DROP TABLE IF EXISTS `settings`;
@@ -767,16 +831,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `settings`
+-- Dumping data untuk tabel `settings`
 --
 
 INSERT INTO `settings` (`id`, `groups`, `options`, `value`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'General', 'web_name', 'PopojiCMS - Engine Management System Indonesia, Buat Sendiri Rasa Webmu', 1, 1, '2019-10-05 20:48:11', '2019-10-05 21:02:02'),
-(2, 'General', 'web_url', 'https://www.popojicms.org', 1, 1, '2019-10-05 21:12:28', '2019-10-05 21:12:28'),
-(3, 'General', 'web_description', 'PopojiCMS - CMS Indonesia, buat sendiri rasa webmu, menawarankan konsep web yang menarik dan simpel tentunya, bisa dijadikan alternatif engine web anda, karena kami adalah CMS Gratis Indonesia', 1, 1, '2019-10-05 21:13:01', '2019-10-05 21:13:01'),
+(1, 'General', 'web_name', 'Forum Sharing dan Berita', 1, 1, '2019-10-05 20:48:11', '2019-10-05 21:02:02'),
+(2, 'General', 'web_url', 'http://localhost/popoji', 1, 1, '2019-10-05 21:12:28', '2019-10-05 21:12:28'),
+(3, 'General', 'web_description', 'Forum Sharing dan Berita Online', 1, 1, '2019-10-05 21:13:01', '2019-10-05 21:13:01'),
 (4, 'General', 'web_keyword', 'popojicms buat sendiri rasa webmu', 1, 1, '2019-10-05 21:13:42', '2019-10-05 21:13:42'),
 (5, 'General', 'web_author', 'PopojiCMS', 1, 1, '2019-10-05 21:13:56', '2019-10-05 21:13:56'),
-(6, 'General', 'email', 'info@popojicms.org', 1, 1, '2019-10-05 21:14:09', '2019-10-05 21:14:09'),
+(6, 'General', 'email', 'admin@admin.com', 1, 1, '2019-10-05 21:14:09', '2019-10-05 21:14:09'),
 (7, 'General', 'telephone', '0895801846132', 1, 1, '2019-10-05 21:14:26', '2019-10-05 21:14:26'),
 (8, 'General', 'fax', '000-0000-0000', 1, 1, '2019-10-05 21:14:38', '2019-10-05 21:14:38'),
 (9, 'General', 'address', 'DKI Jakarta, Indonesia', 1, 1, '2019-10-05 21:14:50', '2019-10-05 21:14:50'),
@@ -810,7 +874,7 @@ INSERT INTO `settings` (`id`, `groups`, `options`, `value`, `created_by`, `updat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subscribes`
+-- Struktur dari tabel `subscribes`
 --
 
 DROP TABLE IF EXISTS `subscribes`;
@@ -827,7 +891,7 @@ CREATE TABLE IF NOT EXISTS `subscribes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `subscribes`
+-- Dumping data untuk tabel `subscribes`
 --
 
 INSERT INTO `subscribes` (`id`, `name`, `email`, `follow`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -836,7 +900,7 @@ INSERT INTO `subscribes` (`id`, `name`, `email`, `follow`, `created_by`, `update
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tags`
+-- Struktur dari tabel `tags`
 --
 
 DROP TABLE IF EXISTS `tags`;
@@ -853,7 +917,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `tags`
+-- Dumping data untuk tabel `tags`
 --
 
 INSERT INTO `tags` (`id`, `title`, `seotitle`, `count`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -864,7 +928,7 @@ INSERT INTO `tags` (`id`, `title`, `seotitle`, `count`, `created_by`, `updated_b
 -- --------------------------------------------------------
 
 --
--- Table structure for table `themes`
+-- Struktur dari tabel `themes`
 --
 
 DROP TABLE IF EXISTS `themes`;
@@ -882,7 +946,7 @@ CREATE TABLE IF NOT EXISTS `themes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `themes`
+-- Dumping data untuk tabel `themes`
 --
 
 INSERT INTO `themes` (`id`, `title`, `author`, `folder`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
@@ -891,7 +955,7 @@ INSERT INTO `themes` (`id`, `title`, `author`, `folder`, `active`, `created_by`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -915,33 +979,33 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `telp`, `bio`, `block`, `picture`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'superadmin', 'super@popojicms.org', NULL, '$2y$10$c8E.t7.iivVy6wPxd/OILOJ7MKCcFHWWne4hZK.remhqn0jc4llDG', NULL, NULL, 'N', NULL, NULL, 1, 1, '2019-09-22 00:56:35', '2019-10-04 19:50:43'),
-(2, 'Administrator', 'administrator', 'admin@popojicms.org', NULL, '$2y$10$23AX8B49BGmTz6ZjWJFNVuXJfg15A5wTREae5tBXl.xBC1JJHqW0K', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:36:38', '2019-10-15 00:36:48'),
-(3, 'Editor', 'editor', 'editor@popojicms.org', NULL, '$2y$10$kBIdL1HlyetuidKQaU.KO.gCy/qC0BhXMAXfcWcGfAQjqM89ffWs2', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:37:15', '2019-10-15 00:37:15'),
-(4, 'Member', 'member', 'member@popojicms.org', NULL, '$2y$10$1.gM.DcgTJvt9DEzAfT93edYiBQlOiFByKIXT/iUFOeSzwDgNDfGi', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:37:45', '2019-10-15 00:37:45');
+(1, 'Super Admin', 'admin', 'admin@admin.com', NULL, '$2y$10$1EDhUcTvnEbV0o0yOPdS3u494hyA0arwR/tPrO.hIJuG9Xzawhgze', NULL, NULL, 'N', NULL, NULL, 1, 1, '2019-09-22 00:56:35', '2019-10-04 19:50:43'),
+(2, 'Administrator', 'administrator', 'admin@popojicms.org', NULL, '$2y$10$1EDhUcTvnEbV0o0yOPdS3u494hyA0arwR/tPrO.hIJuG9Xzawhgze', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:36:38', '2019-10-15 00:36:48'),
+(3, 'Editor', 'editor', 'editor@popojicms.org', NULL, '$2y$10$1EDhUcTvnEbV0o0yOPdS3u494hyA0arwR/tPrO.hIJuG9Xzawhgze', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:37:15', '2019-10-15 00:37:15'),
+(4, 'Member', 'member', 'member@popojicms.org', NULL, '$2y$10$1EDhUcTvnEbV0o0yOPdS3u494hyA0arwR/tPrO.hIJuG9Xzawhgze', NULL, NULL, 'N', '', NULL, 1, 1, '2019-10-15 00:37:45', '2019-10-15 00:37:45');
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `model_has_permissions`
+-- Ketidakleluasaan untuk tabel `model_has_permissions`
 --
 ALTER TABLE `model_has_permissions`
   ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `model_has_roles`
+-- Ketidakleluasaan untuk tabel `model_has_roles`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `role_has_permissions`
+-- Ketidakleluasaan untuk tabel `role_has_permissions`
 --
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
